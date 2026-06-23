@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Details | GovJobs Portal</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Roboto, sans-serif;
+      }
+      :root {
+        --bg: #f0f4f8;
+        --surface: #ffffff;
+        --primary: #0b3d5f;
+        --primary-light: #1a5a8b;
+        --accent: #c98d26;
+        --text: #1e293b;
+        --text-secondary: #475569;
+        --border: #e2e8f0;
+        --shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+      }
+      body.dark {
+        --bg: #0f172a;
+        --surface: #1e293b;
+        --primary: #2c5f8a;
+        --primary-light: #3b7aaa;
+        --accent: #eab308;
+        --text: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --border: #334155;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 0 1.5rem;
+      }
+
+      .top-bar {
+        background: var(--surface);
+        border-radius: 20px;
+        padding: 1.2rem 2rem;
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        box-shadow: var(--shadow);
+      }
+      .logo {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+      .back-btn {
+        background: transparent;
+        border: 2px solid var(--primary);
+        color: var(--primary);
+        padding: 0.5rem 1.2rem;
+        border-radius: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+      .back-btn:hover {
+        background: var(--primary);
+        color: white;
+      }
+      .theme-toggle {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--text);
+      }
+
+      .detail-card {
+        background: var(--surface);
+        border-radius: 25px;
+        padding: 2rem;
+        box-shadow: var(--shadow);
+      }
+      .job-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      .job-header h1 {
+        font-size: 2.2rem;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+      }
+      .job-header .org {
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+      .badge-row {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        margin: 1rem 0;
+      }
+      .badge {
+        padding: 0.4rem 1rem;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 0.85rem;
+      }
+      .badge-dept {
+        background: var(--primary);
+        color: white;
+      }
+      .badge-category {
+        background: var(--border);
+        color: var(--text);
+      }
+      .badge-expired {
+        background: var(--danger);
+        color: white;
+      }
+      .badge-urgent {
+        background: var(--warning);
+        color: white;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.2rem;
+        margin: 2rem 0;
+      }
+      .info-item {
+        background: var(--bg);
+        border-radius: 15px;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        transition: 0.2s;
+      }
+      .info-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+      }
+      .info-item i {
+        font-size: 1.5rem;
+        color: var(--accent);
+        width: 30px;
+        text-align: center;
+      }
+      .info-content strong {
+        display: block;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-bottom: 0.2rem;
+      }
+      .info-content span {
+        font-weight: 600;
+        font-size: 1.1rem;
+      }
+
+      .timeline {
+        position: relative;
+        margin: 2.5rem 0;
+        padding-left: 40px;
+        border-left: 3px dashed var(--accent);
+      }
+      .timeline-item {
+        margin-bottom: 2rem;
+        position: relative;
+      }
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -48px;
+        top: 5px;
+        width: 20px;
+        height: 20px;
+        background: var(--accent);
+        border-radius: 50%;
+        border: 3px solid var(--surface);
+      }
+      .timeline-date {
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.3rem;
+      }
+      .timeline-text {
+        color: var(--text-secondary);
+      }
+
+      .section {
+        margin: 2rem 0;
+      }
+      .section h3 {
+        font-size: 1.3rem;
+        color: var(--primary);
+        margin-bottom: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-bottom: 2px solid var(--border);
+        padding-bottom: 0.5rem;
+      }
+      .description {
+        color: var(--text-secondary);
+        line-height: 1.8;
+      }
+      .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+      }
+      .tag {
+        background: var(--border);
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+      }
+
+      .apply-footer {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+      }
+      .apply-btn {
+        background: var(--primary);
+        color: white;
+        padding: 0.8rem 2rem;
+        border-radius: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: 0.2s;
+      }
+      .apply-btn:hover {
+        background: var(--primary-light);
+      }
+      .secondary-btn {
+        background: var(--border);
+        color: var(--text);
+      }
+      .secondary-btn:hover {
+        background: var(--text-secondary);
+        color: white;
+      }
+
+      .error-msg {
+        text-align: center;
+        padding: 3rem;
+      }
+      footer {
+        text-align: center;
+        padding: 1.5rem;
+        color: var(--text-secondary);
+        margin-top: 2rem;
+      }
+
+      @media (max-width: 600px) {
+        .job-header h1 {
+          font-size: 1.6rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="top-bar">
+        <div class="logo">
+          <i class="fas fa-landmark" style="color: var(--accent)"></i> GovJobs
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center">
+          <a href="index.html" class="back-btn"
+            ><i class="fas fa-arrow-left"></i> Back to Jobs</a
+          >
+          <button id="themeToggle" class="theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="detailCard" class="detail-card">
+        <!-- Dynamic content -->
+      </div>
+
+      <footer>
+        <p>
+          © 2026 GovJobs Portal · Verify all details on the official website.
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const jobId = urlParams.get("id");
+      const STORAGE_KEY = "govtJobsData";
+      const CACHE_KEY = "govtJobsCache";
+      const API_URL = "jobs.json";
+
+      async function getJobById(id) {
+        let data = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        if (data?.jobs) {
+          let job = data.jobs.find((j) => j.id === id);
+          if (job) return job;
+        }
+        data = JSON.parse(localStorage.getItem(CACHE_KEY));
+        if (data?.data?.jobs) {
+          let job = data.data.jobs.find((j) => j.id === id);
+          if (job) return job;
+        }
+        try {
+          const resp = await fetch(API_URL);
+          const json = await resp.json();
+          return json.jobs?.find((j) => j.id === id) || null;
+        } catch {
+          return null;
+        }
+      }
+
+      function renderDetail(job) {
+        const container = document.getElementById("detailCard");
+        const lastDate = new Date(job.lastDate);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const daysLeft = Math.ceil((lastDate - today) / (1000 * 60 * 60 * 24));
+        const isExpired = daysLeft <= 0;
+
+        const fmtDate = (d) =>
+          d
+            ? new Date(d).toLocaleDateString("en-IN", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            : "Not announced";
+
+        let html = `
+        <div class="job-header">
+          <h1>${job.title}</h1>
+          <p class="org"><i class="fas fa-building"></i> ${job.organization}</p>
+          <div class="badge-row">
+            <span class="badge badge-dept">${job.department}</span>
+            <span class="badge badge-category">${job.category?.toUpperCase() || "JOB"}</span>
+            ${
+              isExpired
+                ? '<span class="badge badge-expired">❌ Expired</span>'
+                : daysLeft <= 7
+                  ? `<span class="badge badge-urgent">⏰ ${daysLeft} days left</span>`
+                  : ""
+            }
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-item"><i class="fas fa-users"></i><div class="info-content"><strong>Vacancies</strong><span>${job.vacancies?.toLocaleString() || "N/A"}</span></div></div>
+          <div class="info-item"><i class="fas fa-calendar-plus"></i><div class="info-content"><strong>Start Date</strong><span>${fmtDate(job.startDate)}</span></div></div>
+          <div class="info-item"><i class="fas fa-calendar-times"></i><div class="info-content"><strong>Last Date</strong><span>${fmtDate(job.lastDate)}</span></div></div>
+          <div class="info-item"><i class="fas fa-calendar-check"></i><div class="info-content"><strong>Exam Date</strong><span>${fmtDate(job.examDate)}</span></div></div>
+          <div class="info-item"><i class="fas fa-graduation-cap"></i><div class="info-content"><strong>Education</strong><span>${job.qualification || "See notification"}</span></div></div>
+          <div class="info-item"><i class="fas fa-birthday-cake"></i><div class="info-content"><strong>Age Limit</strong><span>${job.ageLimit || "N/A"}</span></div></div>
+          <div class="info-item"><i class="fas fa-running"></i><div class="info-content"><strong>Physical Test</strong><span>${job.physicalTest || "No"}</span></div></div>
+          <div class="info-item"><i class="fas fa-map-marker-alt"></i><div class="info-content"><strong>Location</strong><span>${job.location || "All India"}</span></div></div>
+          <div class="info-item"><i class="fas fa-coins"></i><div class="info-content"><strong>Salary</strong><span>${job.salary || "As per norms"}</span></div></div>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-date">Application Start</div>
+            <div class="timeline-text">${fmtDate(job.startDate)}</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">Application Deadline</div>
+            <div class="timeline-text">${fmtDate(job.lastDate)}</div>
+          </div>
+          ${
+            job.examDate
+              ? `
+          <div class="timeline-item">
+            <div class="timeline-date">Exam Date</div>
+            <div class="timeline-text">${fmtDate(job.examDate)}</div>
+          </div>`
+              : ""
+          }
+        </div>
+
+        ${
+          job.selectionProcess
+            ? `
+        <div class="section">
+          <h3><i class="fas fa-tasks"></i> Selection Process</h3>
+          <p class="description">${job.selectionProcess}</p>
+        </div>`
+            : ""
+        }
+
+        <div class="section">
+          <h3><i class="fas fa-align-left"></i> About This Job</h3>
+          <p class="description">${job.description || "See official notification for complete details."}</p>
+        </div>
+
+        ${
+          job.tags?.length
+            ? `
+        <div class="tags">
+          ${job.tags.map((t) => `<span class="tag">#${t}</span>`).join("")}
+        </div>`
+            : ""
+        }
+
+        <div class="apply-footer">
+          <a href="${job.applicationLink}" target="_blank" class="apply-btn">
+            <i class="fas fa-external-link-alt"></i> Apply on Official Site
+          </a>
+          <a href="index.html" class="apply-btn secondary-btn">
+            <i class="fas fa-list"></i> All Jobs
+          </a>
+        </div>
+      `;
+
+        container.innerHTML = html;
+      }
+
+      function showError() {
+        document.getElementById("detailCard").innerHTML = `
+        <div class="error-msg">
+          <i class="fas fa-exclamation-triangle" style="font-size:3rem;"></i>
+          <h2>Job Not Found</h2>
+          <p>The job may have expired or been removed.</p>
+          <a href="index.html" class="back-btn" style="margin-top:1rem;">Browse Jobs</a>
+        </div>`;
+      }
+
+      // Dark mode
+      (function () {
+        const saved = localStorage.getItem("theme");
+        if (saved === "dark") {
+          document.body.classList.add("dark");
+          document.querySelector("#themeToggle i").className = "fas fa-sun";
+        }
+        document.getElementById("themeToggle").addEventListener("click", () => {
+          document.body.classList.toggle("dark");
+          const isDark = document.body.classList.contains("dark");
+          localStorage.setItem("theme", isDark ? "dark" : "light");
+          document.querySelector("#themeToggle i").className = isDark
+            ? "fas fa-sun"
+            : "fas fa-moon";
+        });
+      })();
+
+      if (jobId) {
+        getJobById(jobId).then((job) => {
+          if (job) renderDetail(job);
+          else showError();
+        });
+      } else {
+        showError();
+      }
+    </script>
+  </body>
+</html>

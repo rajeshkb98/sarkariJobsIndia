@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "lastUpdated": "2026-06-23T04:57:05.489Z",
+    "totalActiveJobs": 4
+  },
+  "jobs": [
+    {
+      "id": "job_004",
+      "title": "SBI PO Online Form 2026",
+      "department": "Bank",
+      "organization": "SBI PO Online Form 2026",
+      "category": "bank",
+      "vacancies": 1500,
+      "lastDate": "2026-06-08",
+      "startDate": "2026-06-18",
+      "examDate": "",
+      "physicalTest": "No",
+      "location": "All India",
+      "salary": "",
+      "qualification": "passed or be appearing in the final year of a Bachelor’s Degree in any stream",
+      "ageLimit": "21 -  30 Years",
+      "applicationLink": "https://ibpsreg.ibps.in/sbipojun26/",
+      "description": "State Bank of India (SBI), has released a notification on its official website for the Probationary Officer PO Examination 2026. This recruitment is for 1500 posts. SBI Application Form has started on 18 June 2026 & the candidates can apply until 08 July 2026. The Minimum age required is 21 Years & The Maximum Age Is 30 Years as on 01 April 2026. Candidates must check the complete details for SBI PO Recruitment 2026 which has given below. (Advt. No. CRPD/PO/2026-27/09)",
+      "selectionProcess": "Pre Exam Mains Exam Group Exercise Interview",
+      "tags": [
+        "sbi",
+        "graduate",
+        "probationary officer"
+      ],
+      "postedDate": "2026-06-23",
+      "status": "active"
+    },
+    {
+      "id": "job_001",
+      "title": "Civil Services 2026",
+      "department": "UPSC",
+      "organization": "UPSC",
+      "category": "upsc",
+      "vacancies": 1056,
+      "lastDate": "2026-07-15",
+      "applicationLink": "https://upsc.gov.in",
+      "location": "All India",
+      "salary": "Level-10",
+      "qualification": "Graduate",
+      "ageLimit": "21-32",
+      "description": "IAS, IPS etc",
+      "tags": [
+        "premium"
+      ],
+      "postedDate": "2026-06-01",
+      "status": "active"
+    },
+    {
+      "id": "job_002",
+      "title": "SSC CGL 2026",
+      "department": "SSC",
+      "organization": "SSC",
+      "category": "ssc",
+      "vacancies": 7500,
+      "lastDate": "2026-07-25",
+      "applicationLink": "https://ssc.nic.in",
+      "location": "Various",
+      "salary": "Level 4-8",
+      "qualification": "Graduate",
+      "ageLimit": "18-32",
+      "description": "Group B & C",
+      "tags": [
+        "popular"
+      ],
+      "postedDate": "2026-06-10",
+      "status": "active"
+    },
+    {
+      "id": "job_003",
+      "title": "RRB JE 2026",
+      "department": "Railway",
+      "organization": "RRB",
+      "category": "railway",
+      "vacancies": 857,
+      "lastDate": "2026-08-05",
+      "applicationLink": "https://rrb.gov.in",
+      "location": "All India",
+      "salary": "Level-6",
+      "qualification": "Diploma",
+      "ageLimit": "18-33",
+      "description": "Junior Engineer",
+      "tags": [
+        "engineering"
+      ],
+      "postedDate": "2026-06-15",
+      "status": "active"
+    }
+  ]
+}

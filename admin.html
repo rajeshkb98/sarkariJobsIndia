@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel - GovJobs</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Roboto, sans-serif;
+      }
+      body {
+        background: #f0f2f5;
+        color: #1f2937;
+      }
+      .admin-header {
+        background: white;
+        padding: 1rem 2rem;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .container {
+        max-width: 1400px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+        display: grid;
+        grid-template-columns: 380px 1fr;
+        gap: 2rem;
+      }
+      @media (max-width: 1024px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+      }
+      .form-panel {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        position: sticky;
+        top: 1rem;
+      }
+      .jobs-panel {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+      label {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 0.3rem;
+        font-size: 0.9rem;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 0.7rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+      }
+      button {
+        padding: 0.6rem 1.2rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .btn-primary {
+        background: #1a56db;
+        color: white;
+      }
+      .btn-danger {
+        background: #dc2626;
+        color: white;
+      }
+      .btn-success {
+        background: #059669;
+        color: white;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
+      th {
+        background: #f9fafb;
+        padding: 0.8rem;
+        text-align: left;
+        font-weight: 600;
+        border-bottom: 2px solid #e5e7eb;
+      }
+      td {
+        padding: 0.8rem;
+        border-bottom: 1px solid #e5e7eb;
+      }
+      .action-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin: 0 0.2rem;
+        font-size: 1rem;
+      }
+      .edit-btn {
+        color: #1a56db;
+      }
+      .delete-btn {
+        color: #dc2626;
+      }
+      .toast {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        padding: 1rem;
+        border-radius: 10px;
+        color: white;
+        font-weight: 600;
+        z-index: 2000;
+      }
+      .toast-success {
+        background: #059669;
+      }
+      .toast-error {
+        background: #dc2626;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="admin-header">
+      <h2><i class="fas fa-crown"></i> GovJobs Admin</h2>
+      <div>
+        <button class="btn-primary" onclick="exportData()">
+          <i class="fas fa-download"></i> Export JSON
+        </button>
+        <button class="btn-success" onclick="importData()">
+          <i class="fas fa-upload"></i> Import JSON
+        </button>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="form-panel">
+        <h3 id="formTitle"><i class="fas fa-plus-circle"></i> Add New Job</h3>
+        <form id="jobForm">
+          <input type="hidden" id="jobId" /><input
+            type="hidden"
+            id="editMode"
+            value="add"
+          />
+          <label>Title *</label><input type="text" id="title" required />
+          <label>Department *</label>
+          <select id="department" required>
+            <option value="">Select</option>
+            <option>UPSC</option>
+            <option>SSC</option>
+            <option>Railway</option>
+            <option>Bank</option>
+            <option>Defence</option>
+          </select>
+          <label>Organization *</label
+          ><input type="text" id="organization" required />
+          <label>Category *</label>
+          <select id="category" required>
+            <option value="">Select</option>
+            <option value="upsc">UPSC</option>
+            <option value="ssc">SSC</option>
+            <option value="railway">Railway</option>
+            <option value="bank">Banking</option>
+            <option value="defence">Defence</option>
+          </select>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem">
+            <div>
+              <label>Vacancies *</label
+              ><input type="number" id="vacancies" required />
+            </div>
+            <div>
+              <label>Last Date *</label
+              ><input type="date" id="lastDate" required />
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem">
+            <div>
+              <label>Application Start Date</label
+              ><input type="date" id="startDate" />
+            </div>
+            <div>
+              <label>Exam Date</label><input type="date" id="examDate" />
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem">
+            <div>
+              <label>Physical Test</label>
+              <select id="physicalTest">
+                <option value="No">No</option>
+                <option value="Yes">Yes</option>
+                <option value="Details below">Details below</option>
+              </select>
+            </div>
+            <div>
+              <label>Location</label
+              ><input type="text" id="location" value="All India" />
+            </div>
+          </div>
+          <label>Salary</label
+          ><input type="text" id="salary" placeholder="Level-7" />
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem">
+            <div>
+              <label>Qualification</label
+              ><input type="text" id="qualification" />
+            </div>
+            <div>
+              <label>Age Limit</label><input type="text" id="ageLimit" />
+            </div>
+          </div>
+          <label>Application Link</label
+          ><input type="url" id="applicationLink" placeholder="https://" />
+          <label>Description</label
+          ><textarea id="description" rows="2"></textarea>
+          <label>Selection Process</label
+          ><input type="text" id="selectionProcess" />
+          <label>Tags (comma separated)</label
+          ><input type="text" id="tags" placeholder="popular,graduate" />
+          <label>Posted Date</label><input type="date" id="postedDate" />
+          <button type="submit" class="btn-primary" style="width: 100%">
+            <i class="fas fa-save"></i> Save Job
+          </button>
+          <button
+            type="button"
+            id="cancelBtn"
+            style="display: none; width: 100%; margin-top: 0.5rem"
+            onclick="resetForm()"
+          >
+            Cancel
+          </button>
+        </form>
+      </div>
+
+      <div class="jobs-panel">
+        <h3><i class="fas fa-list"></i> Job Listings</h3>
+        <div style="margin: 1rem 0">
+          <input
+            type="text"
+            id="searchJobs"
+            placeholder="Search..."
+            oninput="renderTable()"
+            style="width: 200px; display: inline"
+          />
+          <select
+            id="filterStatus"
+            onchange="renderTable()"
+            style="margin-left: 1rem"
+          >
+            <option value="all">All</option>
+            <option value="active">Active</option>
+            <option value="expiring">Expiring</option>
+            <option value="expired">Expired</option>
+          </select>
+        </div>
+        <div style="overflow-x: auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Dept</th>
+                <th>Vacancies</th>
+                <th>Last Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="jobsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div id="toastContainer"></div>
+
+    <script>
+      let jobsData = JSON.parse(localStorage.getItem("govtJobsData")) || {
+        metadata: { lastUpdated: "", totalActiveJobs: 0 },
+        jobs: [],
+      };
+      function saveToStorage() {
+        jobsData.metadata.lastUpdated = new Date().toISOString();
+        jobsData.metadata.totalActiveJobs = jobsData.jobs.filter(
+          (j) => j.status !== "expired",
+        ).length;
+        localStorage.setItem("govtJobsData", JSON.stringify(jobsData));
+        localStorage.setItem("jobDataTimestamp", Date.now().toString());
+      }
+
+      function generateId() {
+        return (
+          "job_" +
+          Date.now().toString(36) +
+          Math.random().toString(36).substr(2, 5)
+        );
+      }
+
+      document.getElementById("jobForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const mode = document.getElementById("editMode").value;
+        const job = {
+          id: document.getElementById("jobId").value || generateId(),
+          title: document.getElementById("title").value,
+          department: document.getElementById("department").value,
+          organization: document.getElementById("organization").value,
+          category: document.getElementById("category").value,
+          vacancies: parseInt(document.getElementById("vacancies").value) || 0,
+          lastDate: document.getElementById("lastDate").value,
+          startDate: document.getElementById("startDate").value,
+          examDate: document.getElementById("examDate").value,
+          physicalTest: document.getElementById("physicalTest").value,
+          location: document.getElementById("location").value,
+          salary: document.getElementById("salary").value,
+          qualification: document.getElementById("qualification").value,
+          ageLimit: document.getElementById("ageLimit").value,
+          applicationLink: document.getElementById("applicationLink").value,
+          description: document.getElementById("description").value,
+          selectionProcess: document.getElementById("selectionProcess").value,
+          tags: document
+            .getElementById("tags")
+            .value.split(",")
+            .map((t) => t.trim())
+            .filter((t) => t),
+          postedDate:
+            document.getElementById("postedDate").value ||
+            new Date().toISOString().split("T")[0],
+          status: "active",
+        };
+        if (mode === "edit") {
+          const idx = jobsData.jobs.findIndex((j) => j.id === job.id);
+          if (idx !== -1) jobsData.jobs[idx] = job;
+        } else {
+          jobsData.jobs.unshift(job);
+        }
+        saveToStorage();
+        renderTable();
+        resetForm();
+        showToast("Job saved!", "success");
+      });
+
+      function editJob(id) {
+        const job = jobsData.jobs.find((j) => j.id === id);
+        if (!job) return;
+        document.getElementById("formTitle").innerHTML =
+          '<i class="fas fa-edit"></i> Edit Job';
+        document.getElementById("editMode").value = "edit";
+        document.getElementById("jobId").value = job.id;
+        document.getElementById("title").value = job.title;
+        document.getElementById("department").value = job.department;
+        document.getElementById("organization").value = job.organization;
+        document.getElementById("category").value = job.category;
+        document.getElementById("vacancies").value = job.vacancies;
+        document.getElementById("lastDate").value = job.lastDate;
+        document.getElementById("startDate").value = job.startDate || "";
+        document.getElementById("examDate").value = job.examDate || "";
+        document.getElementById("physicalTest").value =
+          job.physicalTest || "No";
+        document.getElementById("location").value = job.location || "";
+        document.getElementById("salary").value = job.salary || "";
+        document.getElementById("qualification").value =
+          job.qualification || "";
+        document.getElementById("ageLimit").value = job.ageLimit || "";
+        document.getElementById("applicationLink").value =
+          job.applicationLink || "";
+        document.getElementById("description").value = job.description || "";
+        document.getElementById("selectionProcess").value =
+          job.selectionProcess || "";
+        document.getElementById("tags").value = (job.tags || []).join(", ");
+        document.getElementById("postedDate").value = job.postedDate || "";
+        document.getElementById("cancelBtn").style.display = "block";
+      }
+
+      function deleteJob(id) {
+        if (!confirm("Delete this job?")) return;
+        jobsData.jobs = jobsData.jobs.filter((j) => j.id !== id);
+        saveToStorage();
+        renderTable();
+        showToast("Job deleted", "success");
+      }
+
+      function resetForm() {
+        document.getElementById("jobForm").reset();
+        document.getElementById("editMode").value = "add";
+        document.getElementById("jobId").value = "";
+        document.getElementById("formTitle").innerHTML =
+          '<i class="fas fa-plus-circle"></i> Add New Job';
+        document.getElementById("cancelBtn").style.display = "none";
+        document.getElementById("postedDate").value = new Date()
+          .toISOString()
+          .split("T")[0];
+      }
+
+      function renderTable() {
+        const search = document
+          .getElementById("searchJobs")
+          .value.toLowerCase();
+        const statusFilter = document.getElementById("filterStatus").value;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        let filtered = jobsData.jobs.filter((j) =>
+          j.title.toLowerCase().includes(search),
+        );
+        if (statusFilter !== "all") {
+          filtered = filtered.filter((j) => {
+            const days = Math.ceil(
+              (new Date(j.lastDate) - today) / (1000 * 60 * 60 * 24),
+            );
+            if (statusFilter === "active") return days > 7;
+            if (statusFilter === "expiring") return days <= 7 && days > 0;
+            if (statusFilter === "expired") return days <= 0;
+            return true;
+          });
+        }
+        const tbody = document.getElementById("jobsTableBody");
+        tbody.innerHTML = filtered
+          .map((j) => {
+            const days = Math.ceil(
+              (new Date(j.lastDate) - today) / (1000 * 60 * 60 * 24),
+            );
+            let status = "Active",
+              cls = "color:green";
+            if (days <= 0) {
+              status = "Expired";
+              cls = "color:red";
+            } else if (days <= 7) {
+              status = `Expiring (${days}d)`;
+              cls = "color:orange";
+            }
+            return `<tr>
+          <td><strong>${j.title}</strong></td>
+          <td>${j.department}</td>
+          <td>${j.vacancies}</td>
+          <td>${j.lastDate}</td>
+          <td style="${cls}">${status}</td>
+          <td>
+            <button class="action-btn edit-btn" onclick="editJob('${j.id}')"><i class="fas fa-edit"></i></button>
+            <button class="action-btn delete-btn" onclick="deleteJob('${j.id}')"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>`;
+          })
+          .join("");
+      }
+
+      function exportData() {
+        const blob = new Blob([JSON.stringify(jobsData, null, 2)], {
+          type: "application/json",
+        });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "jobs.json";
+        a.click();
+        showToast("Exported!", "success");
+      }
+
+      function importData() {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".json";
+        input.onchange = (e) => {
+          const file = e.target.files[0];
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            try {
+              const data = JSON.parse(ev.target.result);
+              if (data.jobs) {
+                jobsData = data;
+                saveToStorage();
+                renderTable();
+                showToast("Imported!", "success");
+              }
+            } catch {
+              showToast("Invalid file", "error");
+            }
+          };
+          reader.readAsText(file);
+        };
+        input.click();
+      }
+
+      function showToast(msg, type) {
+        const toast = document.createElement("div");
+        toast.className = `toast toast-${type}`;
+        toast.textContent = msg;
+        document.getElementById("toastContainer").appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+      }
+
+      window.onload = () => {
+        if (jobsData.jobs.length === 0) {
+          jobsData = {
+            metadata: { lastUpdated: "", totalActiveJobs: 3 },
+            jobs: [
+              {
+                id: "job_001",
+                title: "Civil Services Examination 2026",
+                department: "UPSC",
+                organization: "Union Public Service Commission",
+                category: "upsc",
+                vacancies: 1056,
+                lastDate: "2026-07-15",
+                startDate: "2026-06-01",
+                examDate: "2026-10-15",
+                physicalTest: "No",
+                applicationLink: "https://upsconline.nic.in",
+                location: "All India",
+                salary: "Level-10 (₹56,100-1,77,500)",
+                qualification: "Bachelor's Degree",
+                ageLimit: "21-32 years",
+                description:
+                  "Preliminary examination for IAS, IPS, IFS and other central services",
+                selectionProcess: "Prelims → Mains → Interview",
+                postedDate: "2026-06-01",
+                tags: ["premium", "ias", "ips"],
+                status: "active",
+              },
+              {
+                id: "job_002",
+                title: "Combined Graduate Level (CGL) 2026",
+                department: "SSC",
+                organization: "Staff Selection Commission",
+                category: "ssc",
+                vacancies: 7500,
+                lastDate: "2026-07-25",
+                startDate: "2026-06-10",
+                examDate: "",
+                physicalTest: "No",
+                applicationLink: "https://ssc.nic.in",
+                location: "Various Cities",
+                salary: "Level 4-8 (₹25,500-1,42,400)",
+                qualification: "Bachelor's Degree",
+                ageLimit: "18-32 years",
+                description:
+                  "Group B & C posts in various central government departments",
+                selectionProcess: "Tier-I → Tier-II → Tier-III → Skill Test",
+                postedDate: "2026-06-10",
+                tags: ["popular", "graduate"],
+                status: "active",
+              },
+              {
+                id: "job_003",
+                title: "Junior Engineer (Civil, Mechanical, Electrical)",
+                department: "Railway",
+                organization: "Railway Recruitment Board",
+                category: "railway",
+                vacancies: 857,
+                lastDate: "2026-08-05",
+                startDate: "2026-06-15",
+                examDate: "2026-09-20",
+                physicalTest: "Yes",
+                applicationLink: "https://rrbcdg.gov.in",
+                location: "All India",
+                salary: "Level-6 (₹35,400-1,12,400)",
+                qualification: "Diploma/Degree in Engineering",
+                ageLimit: "18-33 years",
+                description:
+                  "RRB JE recruitment for various engineering disciplines",
+                selectionProcess: "CBT-1 → CBT-2 → Document Verification",
+                postedDate: "2026-06-15",
+                tags: ["engineering", "diploma"],
+                status: "active",
+              },
+            ],
+          };
+          saveToStorage();
+        }
+        renderTable();
+        document.getElementById("postedDate").value = new Date()
+          .toISOString()
+          .split("T")[0];
+      };
+    </script>
+  </body>
+</html>

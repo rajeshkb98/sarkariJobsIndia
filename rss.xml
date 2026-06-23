@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GovJobs Portal - Latest Government Jobs India</title>
+    <link>https://yourwebsite.com</link>
+    <description>Latest Sarkari Naukri, Government Job Notifications, Admit Cards, Results</description>
+    <language>en-in</language>
+    <lastBuildDate>Sun, 22 Jun 2026 10:30:00 +0530</lastBuildDate>
+    <atom:link href="https://yourwebsite.com/rss.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>UPSC Civil Services Examination 2026 - 1056 Vacancies</title>
+      <link>https://yourwebsite.com/job-detail.html?id=job_001</link>
+      <guid>https://yourwebsite.com/job-detail.html?id=job_001</guid>
+      <pubDate>Sun, 01 Jun 2026 09:00:00 +0530</pubDate>
+      <category>UPSC</category>
+      <description>Organization: UPSC, Vacancies: 1056, Last Date: 15 July 2026</description>
+    </item>
+    <item>
+      <title>SSC CGL 2026 - 7500 Posts</title>
+      <link>https://yourwebsite.com/job-detail.html?id=job_002</link>
+      <guid>https://yourwebsite.com/job-detail.html?id=job_002</guid>
+      <pubDate>Tue, 10 Jun 2026 11:00:00 +0530</pubDate>
+      <category>SSC</category>
+      <description>Organization: SSC, Vacancies: 7500, Last Date: 25 July 2026</description>
+    </item>
+    <item>
+      <title>RRB Junior Engineer 2026 - 857 Vacancies</title>
+      <link>https://yourwebsite.com/job-detail.html?id=job_003</link>
+      <guid>https://yourwebsite.com/job-detail.html?id=job_003</guid>
+      <pubDate>Sun, 15 Jun 2026 14:00:00 +0530</pubDate>
+      <category>Railway</category>
+      <description>Organization: RRB, Vacancies: 857, Last Date: 05 August 2026</description>
+    </item>
+  </channel>
+</rss>
